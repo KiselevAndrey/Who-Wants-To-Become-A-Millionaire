@@ -17,6 +17,9 @@ public class Manager : MonoBehaviour
 
     [Header("Доп объекты")]
     [SerializeField] Text lifeText;
+    [SerializeField] Object afterGameScene;
+    [SerializeField] PlayerStatsSO player;
+    [SerializeField] int countQuestion;
 
     CollectionOfQuestionsSO _currentCollection;
     QuestionSO _currentQuestion;
@@ -25,17 +28,19 @@ public class Manager : MonoBehaviour
     List<Text> _answerTexts;
     List<string> _answers;
 
-    int _life;
+    int _numberOfQuestion;    
 
     void Start()
     {
-        _life = 3;
+        player.Zeroing();
         UpdateLife();
+        _numberOfQuestion = 0;
 
         NewBtnImageAndText();
 
         _currentCollection = easyQuestions;
         _currentCollection.Shuffle();
+
         NextQuestion();
     }
 
@@ -97,23 +102,34 @@ public class Manager : MonoBehaviour
 
         if (IsWrongAnswer(text.text))
         {
-            UpdateLife(-1);
+            player.WrongAnswer();
+            UpdateLife();
+        }
+        else
+        {
+            player.CorrectAnswer();
         }
 
-        NextQuestion();
+
+        if (player.Life > 0)
+        {
+            _numberOfQuestion++;
+            if (_numberOfQuestion < countQuestion)
+                NextQuestion();
+            else
+                ManagerSceneStatic.LoadScene(afterGameScene);
+        }
     }
 
     bool IsWrongAnswer(string answer) => answer != _currentQuestion.correctAnswer;
 
-    void UpdateLife(int addedValue = 0)
+    void UpdateLife()
     {
-        _life += addedValue;
+        lifeText.text = player.Life.ToString();
 
-        if (_life <= 0)
+        if (player.Life <= 0)
         {
-            _life = 0;
+            ManagerSceneStatic.LoadScene(afterGameScene);
         }
-
-        lifeText.text = _life.ToString();
     }
 }

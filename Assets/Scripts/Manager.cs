@@ -13,7 +13,8 @@ public class Manager : MonoBehaviour
     [SerializeField] List<Button> answerBtns;
 
     [Header("Списки вопросов")]
-    [SerializeField] CollectionOfQuestionsSO easyQuestions;
+    [Tooltip("Последующая колекция должна быть более сложной")]
+    [SerializeField] List<CollectionOfQuestionsSO> questions;
 
     [Header("Доп объекты")]
     [SerializeField] Text lifeText;
@@ -28,18 +29,22 @@ public class Manager : MonoBehaviour
     List<Text> _answerTexts;
     List<string> _answers;
 
-    int _numberOfQuestion;    
+    int _numberOfQuestion;
+    int _difficult;
+    bool _fiftyfifty;
 
     void Start()
     {
         player.Zeroing();
         UpdateLife();
+
         _numberOfQuestion = 0;
+        _difficult = 0;
+
+        _fiftyfifty = false;
 
         NewBtnImageAndText();
-
-        _currentCollection = easyQuestions;
-        _currentCollection.Shuffle();
+        NewCurrentCollection();
 
         NextQuestion();
     }
@@ -56,12 +61,19 @@ public class Manager : MonoBehaviour
         }
     }
 
+    void NewCurrentCollection()
+    {
+        _currentCollection = questions[_difficult];
+        _currentCollection.Shuffle();
+    }
+
     #region Next Question
     void NextQuestion()
     {
         _currentQuestion = _currentCollection.NextQuestion();
         UpdateImage();
         UpdateText();
+        UpdateBtns();
     }
 
     void UpdateImage()
@@ -115,7 +127,15 @@ public class Manager : MonoBehaviour
         {
             _numberOfQuestion++;
             if (_numberOfQuestion < countQuestion)
+            {
+                if (_numberOfQuestion % (countQuestion / 3) == 0)
+                {
+                    _difficult++;
+                    NewCurrentCollection();
+                }
+
                 NextQuestion();
+            }
             else
                 ManagerSceneStatic.LoadScene(afterGameScene);
         }
@@ -131,5 +151,55 @@ public class Manager : MonoBehaviour
         {
             ManagerSceneStatic.LoadScene(afterGameScene);
         }
+    }
+
+    public void FiftyFifty(Button btn)
+    {
+        _answers.Shuffle();
+
+        int n = 2;
+
+        for (int i = 0; i < _answers.Count; i++)   
+        {
+            if (IsWrongAnswer(_answers[i]))
+            {
+                _answers.RemoveAt(i);
+                n--;
+            }
+
+            if (n <= 0) break;
+        }
+
+        for (int i = 0; i < answerBtns.Count; i++)
+        {
+            bool check = false;
+
+            for (int j = 0; j < _answers.Count; j++)
+            {
+                if(_answerTexts[i].text == _answers[j])
+                {
+                    check = true;
+                    break;
+                }
+            }
+
+            if (!check)
+                answerBtns[i].gameObject.SetActive(false);
+        }
+
+        btn.gameObject.SetActive(false);
+        _fiftyfifty = true;
+    }
+    
+    void UpdateBtns()
+    {
+        if (!_fiftyfifty) return;
+
+        foreach (var btn in answerBtns)
+        {
+            btn.gameObject.SetActive(true);
+        }
+
+        _fiftyfifty = false;
     }
 }

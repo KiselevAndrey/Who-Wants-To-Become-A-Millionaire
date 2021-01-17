@@ -5,11 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CollectionOfQuestionsDiff", menuName = "Коллекция вопросов")]
 public class CollectionOfQuestionsSO : ScriptableObject
 {
-    [SerializeField] private int difficult;
     [SerializeField] List<QuestionSO> questions;
-
-    public int Difficult { get => difficult; private set => difficult = value; }
-
+    
     int i;
 
     public void Shuffle()

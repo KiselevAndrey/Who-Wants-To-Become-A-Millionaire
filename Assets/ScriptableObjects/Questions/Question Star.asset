@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3e55876aaa2b745a1399d4d098c8eb, type: 3}
+  m_Name: Question Star
+  m_EditorClassIdentifier: 
+  questionSprite: {fileID: 21300000, guid: b28e62377cd87e642b9aee1b5a120092, type: 3}
+  answerSprite: {fileID: 21300000, guid: b28e62377cd87e642b9aee1b5a120092, type: 3}
+  question: "\u041A\u0430\u043A \u043D\u0430\u0437\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+    \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0430\u044F \u043A \u0417\u0435\u043C\u043B\u0435
+    \u0437\u0432\u0435\u0437\u0434\u0430?"
+  correctAnswer: "\u0421\u043E\u043B\u043D\u0446\u0435"
+  wrongAnswerA: "\u041F\u0440\u043E\u043A\u0441\u0438\u043E\u043C\u0430 \u0426\u0435\u043D\u0442\u0430\u0432\u0440\u0430"
+  wrongAnswerB: "\u041F\u043E\u043B\u044F\u0440\u043D\u0430\u044F"
+  wrongAnswerC: "\u0421\u0438\u0440\u0438\u0443\u0441"
+  questionTextColor: {r: 1, g: 1, b: 1, a: 1}
+  answerTextColor: {r: 1, g: 1, b: 1, a: 1}

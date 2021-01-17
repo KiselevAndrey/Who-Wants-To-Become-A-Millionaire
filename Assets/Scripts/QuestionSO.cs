@@ -13,4 +13,8 @@ public class QuestionSO : ScriptableObject
     [TextArea(1, 5)] public string wrongAnswerA;
     [TextArea(1, 5)] public string wrongAnswerB;
     [TextArea(1, 5)] public string wrongAnswerC;
+
+    [Header("Цвета для текста")]
+    public Color questionTextColor;
+    public Color answerTextColor;
 }

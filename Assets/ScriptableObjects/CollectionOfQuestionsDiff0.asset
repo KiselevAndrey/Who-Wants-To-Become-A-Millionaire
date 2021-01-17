@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c91602f9f27f32845be3844605b9d1ad, type: 3}
+  m_Name: CollectionOfQuestionsDiff0
+  m_EditorClassIdentifier: 
+  difficult: 0
+  questions:
+  - {fileID: 11400000, guid: 047f19434b6b75842be50037969a443c, type: 2}

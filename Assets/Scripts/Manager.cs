@@ -12,18 +12,26 @@ public class Manager : MonoBehaviour
     [Header("Кнопки ответов")]
     [SerializeField] List<Button> answerBtns;
 
+    [Header("Цвета для правильного и неправильного ответов")]
+    [SerializeField] Color correctAnswerColor;
+    [SerializeField] Color wrongAnswerColor;
+
     [Header("Списки вопросов")]
     [Tooltip("Последующая колекция должна быть более сложной")]
     [SerializeField] List<CollectionOfQuestionsSO> questions;
 
-    [Header("Доп объекты")]
+    [Header("Доп видимые объекты")]
     [SerializeField] Text lifeText;
+    [SerializeField] Button nextQuestion;
+
+    [Header("Доп невидимые объекты")]
     [SerializeField] Object afterGameScene;
     [SerializeField] PlayerStatsSO player;
-    [SerializeField] int countQuestion;
+    [SerializeField, Tooltip("Кол-во вопросов до победы")] int countQuestion;
 
     CollectionOfQuestionsSO _currentCollection;
     QuestionSO _currentQuestion;
+    Color _defaultColor;
 
     List<Image> _answerImages;
     List<Text> _answerTexts;
@@ -45,6 +53,8 @@ public class Manager : MonoBehaviour
 
         NewBtnImageAndText();
         NewCurrentCollection();
+
+        _defaultColor = answerBtns[0].image.color;
 
         NextQuestion();
     }
@@ -74,6 +84,7 @@ public class Manager : MonoBehaviour
         UpdateImage();
         UpdateText();
         UpdateBtns();
+        UpdateBtnsColor();
     }
 
     void UpdateImage()
@@ -106,8 +117,29 @@ public class Manager : MonoBehaviour
             _answerTexts[i].color = _currentQuestion.answerTextColor;
         }
     }
+
+    void UpdateBtns()
+    {
+        if (!_fiftyfifty) return;
+
+        foreach (var btn in answerBtns)
+        {
+            btn.gameObject.SetActive(true);
+        }
+
+        _fiftyfifty = false;
+    }
+
+    void UpdateBtnsColor()
+    {
+        foreach (var btn in answerBtns)
+        {
+            btn.image.color = _defaultColor;
+        }
+    }
     #endregion
 
+    #region Work With Btns
     public void Answer(Button btn)
     {
         Text text = btn.GetComponentInChildren<Text>();
@@ -116,12 +148,76 @@ public class Manager : MonoBehaviour
         {
             player.WrongAnswer();
             UpdateLife();
+            btn.image.color = wrongAnswerColor;
         }
         else
         {
             player.CorrectAnswer();
         }
 
+        ViewCorrectAnswer();
+        NextQuestionBtnTakeOverActivate();       
+    }
+
+    bool IsWrongAnswer(string answer) => answer != _currentQuestion.correctAnswer;
+
+    void ViewCorrectAnswer()
+    {
+        for (int i = 0; i < _answerTexts.Count; i++)
+        {
+            if (!IsWrongAnswer(_answerTexts[i].text))
+            {
+                answerBtns[i].image.color = correctAnswerColor;
+                break;
+            }
+        }
+    }
+
+    public void FiftyFifty(Button btn)
+    {
+        _answers.Shuffle();
+
+        int n = 2;
+
+        for (int i = 0; i < _answers.Count; i++)
+        {
+            if (IsWrongAnswer(_answers[i]))
+            {
+                _answers.RemoveAt(i);
+                n--;
+            }
+
+            if (n <= 0) break;
+        }
+
+        for (int i = 0; i < answerBtns.Count; i++)
+        {
+            bool check = false;
+
+            for (int j = 0; j < _answers.Count; j++)
+            {
+                if (_answerTexts[i].text == _answers[j])
+                {
+                    check = true;
+                    break;
+                }
+            }
+
+            if (!check)
+                answerBtns[i].gameObject.SetActive(false);
+        }
+
+        btn.gameObject.SetActive(false);
+        _fiftyfifty = true;
+    }
+
+    void UpdateLife() => lifeText.text = player.Life.ToString();
+
+    void NextQuestionBtnTakeOverActivate() => nextQuestion.gameObject.SetActive(!nextQuestion.gameObject.activeSelf);
+
+    public void NextQuestionBtn()
+    {
+        NextQuestionBtnTakeOverActivate();
 
         if (player.Life > 0)
         {
@@ -139,67 +235,10 @@ public class Manager : MonoBehaviour
             else
                 ManagerSceneStatic.LoadScene(afterGameScene);
         }
-    }
-
-    bool IsWrongAnswer(string answer) => answer != _currentQuestion.correctAnswer;
-
-    void UpdateLife()
-    {
-        lifeText.text = player.Life.ToString();
-
-        if (player.Life <= 0)
+        else
         {
             ManagerSceneStatic.LoadScene(afterGameScene);
         }
     }
-
-    public void FiftyFifty(Button btn)
-    {
-        _answers.Shuffle();
-
-        int n = 2;
-
-        for (int i = 0; i < _answers.Count; i++)   
-        {
-            if (IsWrongAnswer(_answers[i]))
-            {
-                _answers.RemoveAt(i);
-                n--;
-            }
-
-            if (n <= 0) break;
-        }
-
-        for (int i = 0; i < answerBtns.Count; i++)
-        {
-            bool check = false;
-
-            for (int j = 0; j < _answers.Count; j++)
-            {
-                if(_answerTexts[i].text == _answers[j])
-                {
-                    check = true;
-                    break;
-                }
-            }
-
-            if (!check)
-                answerBtns[i].gameObject.SetActive(false);
-        }
-
-        btn.gameObject.SetActive(false);
-        _fiftyfifty = true;
-    }
-    
-    void UpdateBtns()
-    {
-        if (!_fiftyfifty) return;
-
-        foreach (var btn in answerBtns)
-        {
-            btn.gameObject.SetActive(true);
-        }
-
-        _fiftyfifty = false;
-    }
+    #endregion
 }

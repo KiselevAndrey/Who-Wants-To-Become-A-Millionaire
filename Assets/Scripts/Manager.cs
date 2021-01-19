@@ -17,8 +17,7 @@ public class Manager : MonoBehaviour
     [SerializeField] Color wrongAnswerColor;
 
     [Header("Списки вопросов")]
-    [Tooltip("Последующая колекция должна быть более сложной")]
-    [SerializeField] List<CollectionOfQuestionsSO> questions;
+    [SerializeField] CollectionOfQuestionsSO easyQuestions;
 
     [Header("Доп видимые объекты")]
     [SerializeField] Text lifeText;
@@ -37,22 +36,18 @@ public class Manager : MonoBehaviour
     List<Text> _answerTexts;
     List<string> _answers;
 
-    int _numberOfQuestion;
-    int _difficult;
-    bool _fiftyfifty;
+    int _numberOfQuestion;    
 
     void Start()
     {
         player.Zeroing();
         UpdateLife();
-
         _numberOfQuestion = 0;
-        _difficult = 0;
-
-        _fiftyfifty = false;
 
         NewBtnImageAndText();
-        NewCurrentCollection();
+
+        _currentCollection = easyQuestions;
+        _currentCollection.Shuffle();
 
         _defaultColor = answerBtns[0].image.color;
 
@@ -71,20 +66,17 @@ public class Manager : MonoBehaviour
         }
     }
 
-    void NewCurrentCollection()
-    {
-        _currentCollection = questions[_difficult];
-        _currentCollection.Shuffle();
-    }
-
     #region Next Question
     void NextQuestion()
     {
         _currentQuestion = _currentCollection.NextQuestion();
         UpdateImage();
         UpdateText();
+<<<<<<< HEAD
         UpdateBtns();
         UpdateBtnsColor();
+=======
+>>>>>>> parent of adeab16... v0.7
     }
 
     void UpdateImage()
@@ -155,8 +147,20 @@ public class Manager : MonoBehaviour
             player.CorrectAnswer();
         }
 
+<<<<<<< HEAD
         ViewCorrectAnswer();
         NextQuestionBtnTakeOverActivate();       
+=======
+
+        if (player.Life > 0)
+        {
+            _numberOfQuestion++;
+            if (_numberOfQuestion < countQuestion)
+                NextQuestion();
+            else
+                ManagerSceneStatic.LoadScene(afterGameScene);
+        }
+>>>>>>> parent of adeab16... v0.7
     }
 
     bool IsWrongAnswer(string answer) => answer != _currentQuestion.correctAnswer;
@@ -172,6 +176,7 @@ public class Manager : MonoBehaviour
             }
         }
     }
+<<<<<<< HEAD
 
     public void FiftyFifty(Button btn)
     {
@@ -241,4 +246,6 @@ public class Manager : MonoBehaviour
         }
     }
     #endregion
+=======
+>>>>>>> parent of adeab16... v0.7
 }

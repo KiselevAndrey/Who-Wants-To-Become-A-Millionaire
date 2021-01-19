@@ -72,11 +72,8 @@ public class Manager : MonoBehaviour
         _currentQuestion = _currentCollection.NextQuestion();
         UpdateImage();
         UpdateText();
-<<<<<<< HEAD
         UpdateBtns();
         UpdateBtnsColor();
-=======
->>>>>>> parent of adeab16... v0.7
     }
 
     void UpdateImage()
@@ -147,10 +144,8 @@ public class Manager : MonoBehaviour
             player.CorrectAnswer();
         }
 
-<<<<<<< HEAD
         ViewCorrectAnswer();
-        NextQuestionBtnTakeOverActivate();       
-=======
+        NextQuestionBtnTakeOverActivate();     
 
         if (player.Life > 0)
         {
@@ -160,7 +155,6 @@ public class Manager : MonoBehaviour
             else
                 ManagerSceneStatic.LoadScene(afterGameScene);
         }
->>>>>>> parent of adeab16... v0.7
     }
 
     bool IsWrongAnswer(string answer) => answer != _currentQuestion.correctAnswer;
@@ -176,7 +170,6 @@ public class Manager : MonoBehaviour
             }
         }
     }
-<<<<<<< HEAD
 
     public void FiftyFifty(Button btn)
     {
@@ -246,6 +239,4 @@ public class Manager : MonoBehaviour
         }
     }
     #endregion
-=======
->>>>>>> parent of adeab16... v0.7
 }

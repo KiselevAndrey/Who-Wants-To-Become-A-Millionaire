@@ -7,15 +7,12 @@ public class Manager : MonoBehaviour
 {
     [Header("Картинка и текст вопроса")]
     [SerializeField] Image backGroundImage;
+    [SerializeField] Image backGroundAnimationImage;
     [SerializeField] Text questionText;
 
     [Header("Кнопки ответов")]
     [SerializeField] List<Button> answerBtns;
-
-    [Header("Цвета для правильного и неправильного ответов")]
-    [SerializeField] Color correctAnswerColor;
-    [SerializeField] Color wrongAnswerColor;
-
+    
     [Header("Списки вопросов")]
     [Tooltip("Последующая колекция должна быть более сложной")]
     [SerializeField] List<CollectionOfQuestionsSO> questions;
@@ -31,7 +28,6 @@ public class Manager : MonoBehaviour
 
     CollectionOfQuestionsSO _currentCollection;
     QuestionSO _currentQuestion;
-    Color _defaultColor;
 
     List<Text> _answerTexts;
     List<string> _answers;
@@ -53,8 +49,6 @@ public class Manager : MonoBehaviour
 
         NewBtnImageAndText();
         NewCurrentCollection();
-
-        _defaultColor = answerBtns[0].image.color;
 
         NextQuestion();
     }
@@ -83,12 +77,13 @@ public class Manager : MonoBehaviour
         UpdateImage();
         UpdateText();
         UpdateBtns();
-        UpdateBtnsColor();
+        anim.Play("NewQuestion");
     }
 
     void UpdateImage()
     {
         backGroundImage.sprite = _currentQuestion.questionSprite;
+        backGroundAnimationImage.sprite = _currentQuestion.questionSprite;
     }
 
     void UpdateText()
@@ -122,14 +117,6 @@ public class Manager : MonoBehaviour
 
         _updateBtn = false;
     }
-
-    void UpdateBtnsColor()
-    {
-        foreach (var btn in answerBtns)
-        {
-            btn.image.color = _defaultColor;
-        }
-    }
     #endregion
 
     #region Work With Btns
@@ -141,7 +128,6 @@ public class Manager : MonoBehaviour
         {
             player.WrongAnswer();
             UpdateLife();
-            btn.image.color = wrongAnswerColor;
             anim.Play("WrongAnswer");
             btn.animator.Play("AnswerWrong");
         }
@@ -161,7 +147,6 @@ public class Manager : MonoBehaviour
         {
             if (!IsWrongAnswer(_answerTexts[i].text))
             {
-                answerBtns[i].image.color = correctAnswerColor;
                 answerBtns[i].animator.Play("AnswerCorrect");
                 break;
             }

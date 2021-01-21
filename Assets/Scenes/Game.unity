@@ -121,6 +121,80 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &148057079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 148057080}
+  - component: {fileID: 148057082}
+  - component: {fileID: 148057081}
+  m_Layer: 5
+  m_Name: BackGround Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &148057080
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148057079}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 916215719}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: -0.5, y: 0}
+  m_AnchorMax: {x: 1.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &148057081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148057079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 40556cab529e7844c8d2e51faee04aab, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &148057082
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148057079}
+  m_CullTransparentMesh: 0
 --- !u!1 &148607208
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,8 +438,8 @@ GameObject:
   - component: {fileID: 709218595}
   - component: {fileID: 709218594}
   - component: {fileID: 709218593}
-  - component: {fileID: 709218596}
   - component: {fileID: 709218597}
+  - component: {fileID: 709218596}
   m_Layer: 5
   m_Name: Answer B
   m_TagString: Untagged
@@ -528,8 +602,8 @@ GameObject:
   - component: {fileID: 842703356}
   - component: {fileID: 842703355}
   - component: {fileID: 842703354}
-  - component: {fileID: 842703357}
   - component: {fileID: 842703358}
+  - component: {fileID: 842703357}
   m_Layer: 5
   m_Name: Answer C
   m_TagString: Untagged
@@ -780,6 +854,7 @@ RectTransform:
   - {fileID: 263175340}
   - {fileID: 1155753477}
   - {fileID: 1935843417}
+  - {fileID: 148057080}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1469,8 +1544,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 40556cab529e7844c8d2e51faee04aab, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1675,14 +1750,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backGroundImage: {fileID: 1637770184}
+  backGroundAnimationImage: {fileID: 148057081}
   questionText: {fileID: 148607210}
   answerBtns:
   - {fileID: 1402596084}
   - {fileID: 709218593}
   - {fileID: 842703354}
   - {fileID: 2123655086}
-  correctAnswerColor: {r: 0.011213934, g: 0.7924528, b: 0.02952422, a: 1}
-  wrongAnswerColor: {r: 0.9245283, g: 0, b: 0, a: 1}
   questions:
   - {fileID: 11400000, guid: d32ecfd30f7917145aa3bcdef2b88d14, type: 2}
   - {fileID: 11400000, guid: a5d8e4f17594da743b52633bfed88823, type: 2}
@@ -1925,8 +1999,8 @@ GameObject:
   - component: {fileID: 2123655088}
   - component: {fileID: 2123655087}
   - component: {fileID: 2123655086}
-  - component: {fileID: 2123655089}
   - component: {fileID: 2123655090}
+  - component: {fileID: 2123655089}
   m_Layer: 5
   m_Name: Answer D
   m_TagString: Untagged

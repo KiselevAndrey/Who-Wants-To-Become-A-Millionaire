@@ -150,8 +150,7 @@ public class Manager : MonoBehaviour
             player.CorrectAnswer();
         }
 
-        ViewCorrectAnswer();
-        //NextQuestionBtnTakeOverActivate();       
+        ViewCorrectAnswer();     
     }
 
     bool IsWrongAnswer(string answer) => answer != _currentQuestion.correctAnswer;
@@ -208,14 +207,9 @@ public class Manager : MonoBehaviour
     }
 
     void UpdateLife() => lifeText.text = player.Life.ToString();
-
-    //void NextQuestionBtnTakeOverActivate() => nextQuestion.gameObject.SetActive(!nextQuestion.gameObject.activeSelf);
-
+    
     public void NextQuestionBtn()
     {
-        //NextQuestionBtnTakeOverActivate();
-        print("NextQ");
-
         if (player.Life > 0)
         {
             _numberOfQuestion++;

@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3e55876aaa2b745a1399d4d098c8eb, type: 3}
   m_Name: Question Earth Number
   m_EditorClassIdentifier: 
-  questionSprite: {fileID: 21300000, guid: 9dff42b25b164fd44962a72b2b93c433, type: 3}
-  answerSprite: {fileID: 21300000, guid: b28e62377cd87e642b9aee1b5a120092, type: 3}
+  questionSprite: {fileID: 21300000, guid: f29815b294bb04e4cad82fce1c9df1c7, type: 3}
   question: "\u041F\u043E\u0440\u044F\u0434\u043A\u043E\u0432\u044B\u0439 \u043D\u043E\u043C\u0435\u0440
     \u0417\u0435\u043C\u043B\u0438"
   correctAnswer: 3
   wrongAnswerA: 1
   wrongAnswerB: 2
   wrongAnswerC: 42
-  questionTextColor: {r: 1, g: 1, b: 1, a: 1}
-  answerTextColor: {r: 1, g: 1, b: 1, a: 1}

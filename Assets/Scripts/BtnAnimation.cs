@@ -8,7 +8,6 @@ public class BtnAnimation : MonoBehaviour
 
     public void NextQuestion()
     {
-        print("nextQBtn");
         gameManager.NextQuestionBtn();
     }
 }

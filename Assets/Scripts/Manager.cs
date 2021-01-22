@@ -6,65 +6,69 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour
 {
     [Header("Картинка и текст вопроса")]
-    [SerializeField] Image questionImage;
+    [SerializeField] Image backGroundImage;
+    [SerializeField] Image backGroundAnimationImage;
     [SerializeField] Text questionText;
 
     [Header("Кнопки ответов")]
     [SerializeField] List<Button> answerBtns;
-
-    [Header("Цвета для правильного и неправильного ответов")]
-    [SerializeField] Color correctAnswerColor;
-    [SerializeField] Color wrongAnswerColor;
-
+    
     [Header("Списки вопросов")]
-    [SerializeField] CollectionOfQuestionsSO easyQuestions;
+    [Tooltip("Последующая колекция должна быть более сложной")]
+    [SerializeField] List<CollectionOfQuestionsSO> questions;
 
     [Header("Доп видимые объекты")]
     [SerializeField] Text lifeText;
-    [SerializeField] Button nextQuestion;
 
     [Header("Доп невидимые объекты")]
     [SerializeField] Object afterGameScene;
     [SerializeField] PlayerStatsSO player;
     [SerializeField, Tooltip("Кол-во вопросов до победы")] int countQuestion;
+    [SerializeField] Animator anim;
 
     CollectionOfQuestionsSO _currentCollection;
     QuestionSO _currentQuestion;
-    Color _defaultColor;
 
-    List<Image> _answerImages;
     List<Text> _answerTexts;
     List<string> _answers;
 
-    int _numberOfQuestion;    
+    int _numberOfQuestion;
+    int _difficult;
+    bool _updateBtn;
 
+    #region Start
     void Start()
     {
         player.Zeroing();
         UpdateLife();
+
         _numberOfQuestion = 0;
+        _difficult = 0;
+
+        _updateBtn = false;
 
         NewBtnImageAndText();
-
-        _currentCollection = easyQuestions;
-        _currentCollection.Shuffle();
-
-        _defaultColor = answerBtns[0].image.color;
+        NewCurrentCollection();
 
         NextQuestion();
     }
 
     void NewBtnImageAndText()
     {
-        _answerImages = new List<Image>();
         _answerTexts = new List<Text>();
 
         foreach (var btn in answerBtns)
         {
-            _answerImages.Add(btn.GetComponent<Image>());
             _answerTexts.Add(btn.GetComponentInChildren<Text>());
         }
     }
+
+    void NewCurrentCollection()
+    {
+        _currentCollection = questions[_difficult];
+        _currentCollection.Shuffle();
+    }
+    #endregion
 
     #region Next Question
     void NextQuestion()
@@ -73,22 +77,18 @@ public class Manager : MonoBehaviour
         UpdateImage();
         UpdateText();
         UpdateBtns();
-        UpdateBtnsColor();
+        anim.Play("NewQuestion");
     }
 
     void UpdateImage()
     {
-        questionImage.sprite = _currentQuestion.questionSprite;
-        foreach (var image in _answerImages)
-        {
-            image.sprite = _currentQuestion.answerSprite;
-        }
+        backGroundImage.sprite = _currentQuestion.questionSprite;
+        backGroundAnimationImage.sprite = _currentQuestion.questionSprite;
     }
 
     void UpdateText()
     {
         questionText.text = _currentQuestion.question;
-        questionText.color = _currentQuestion.questionTextColor;
 
         _answers = new List<string>
         {
@@ -103,28 +103,19 @@ public class Manager : MonoBehaviour
         for (int i = 0; i < _answerTexts.Count; i++)
         {
             _answerTexts[i].text = _answers[i];
-            _answerTexts[i].color = _currentQuestion.answerTextColor;
         }
     }
 
     void UpdateBtns()
     {
-        if (!_fiftyfifty) return;
+        if (!_updateBtn) return;
 
         foreach (var btn in answerBtns)
         {
             btn.gameObject.SetActive(true);
         }
 
-        _fiftyfifty = false;
-    }
-
-    void UpdateBtnsColor()
-    {
-        foreach (var btn in answerBtns)
-        {
-            btn.image.color = _defaultColor;
-        }
+        _updateBtn = false;
     }
     #endregion
 
@@ -137,24 +128,15 @@ public class Manager : MonoBehaviour
         {
             player.WrongAnswer();
             UpdateLife();
-            btn.image.color = wrongAnswerColor;
+            anim.Play("WrongAnswer");
+            btn.animator.Play("AnswerWrong");
         }
         else
         {
             player.CorrectAnswer();
         }
 
-        ViewCorrectAnswer();
-        NextQuestionBtnTakeOverActivate();     
-
-        if (player.Life > 0)
-        {
-            _numberOfQuestion++;
-            if (_numberOfQuestion < countQuestion)
-                NextQuestion();
-            else
-                ManagerSceneStatic.LoadScene(afterGameScene);
-        }
+        ViewCorrectAnswer();     
     }
 
     bool IsWrongAnswer(string answer) => answer != _currentQuestion.correctAnswer;
@@ -165,7 +147,7 @@ public class Manager : MonoBehaviour
         {
             if (!IsWrongAnswer(_answerTexts[i].text))
             {
-                answerBtns[i].image.color = correctAnswerColor;
+                answerBtns[i].animator.Play("AnswerCorrect");
                 break;
             }
         }
@@ -206,17 +188,13 @@ public class Manager : MonoBehaviour
         }
 
         btn.gameObject.SetActive(false);
-        _fiftyfifty = true;
+        _updateBtn = true;
     }
 
     void UpdateLife() => lifeText.text = player.Life.ToString();
-
-    void NextQuestionBtnTakeOverActivate() => nextQuestion.gameObject.SetActive(!nextQuestion.gameObject.activeSelf);
-
+    
     public void NextQuestionBtn()
     {
-        NextQuestionBtnTakeOverActivate();
-
         if (player.Life > 0)
         {
             _numberOfQuestion++;

@@ -3,9 +3,8 @@
 [CreateAssetMenu(fileName = "Question", menuName = "Вопрос")]
 public class QuestionSO : ScriptableObject
 {
-    [Header("Фон вопроса и ответов")]
+    [Header("Картинка вопроса")]
     public Sprite questionSprite;
-    public Sprite answerSprite;
 
     [Header("Вопрос и ответы")]
     [TextArea(1, 5)] public string question;
@@ -14,7 +13,7 @@ public class QuestionSO : ScriptableObject
     [TextArea(1, 5)] public string wrongAnswerB;
     [TextArea(1, 5)] public string wrongAnswerC;
 
-    [Header("Цвета для текста")]
-    public Color questionTextColor;
-    public Color answerTextColor;
+    //[Header("Цвета для текста")]
+    //public Color questionTextColor;
+    //public Color answerTextColor;
 }
